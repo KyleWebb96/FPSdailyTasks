@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
+    [Header("----- Components -----")]
     [SerializeField] CharacterController controller;
 
-    [SerializeField] float playerSpeed;
-    [SerializeField] float sprintMod;
-    [SerializeField] float jumpHeight;
-    [SerializeField] float gravityValue;
-    [SerializeField] int jumpsMax;
 
+    [Header("----- Player Stats -----")]
+    [Range(0, 10)] [SerializeField] int HP;
+    [Range(1, 5)] [SerializeField] float playerSpeed;
+    [Range(1.5f, 5)] [SerializeField] float sprintMod;
+    [Range(8, 20)] [SerializeField] float jumpHeight;
+    [Range(0, 50)] [SerializeField] float gravityValue;
+    [Range(1, 3)] [SerializeField] int jumpsMax;
+
+
+    [Header("----- Gun Stats -----")]
     [SerializeField] float shootRate;
     [SerializeField] int shootDist;
     [SerializeField] int shootDamage;
-    [SerializeField] GameObject cube;
 
     Vector3 move;
     private Vector3 playerVelocity;
@@ -93,5 +98,11 @@ public class playerController : MonoBehaviour
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
         }
+    }
+
+    public void damage(int dmg)
+    {
+        HP -= dmg;
+
     }
 }
