@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        rb.velocity = transform.forward * speed;
+        rb.velocity = (gameManager.instance.player.transform.position - transform.position) * speed;
         Destroy(gameObject, timer);
     }
 
@@ -21,7 +21,6 @@ public class Bullet : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             gameManager.instance.playerScript.damage(damage);
-
         }
 
         Destroy(gameObject);

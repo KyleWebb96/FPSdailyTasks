@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour
     [SerializeField] int shootDist;
     [SerializeField] int shootDamage;
 
+    int origHP;
     Vector3 move;
     private Vector3 playerVelocity;
     int jumpsTimes;
@@ -32,6 +33,8 @@ public class playerController : MonoBehaviour
     private void Start()
     {
         playerSpeedOrig = playerSpeed;
+        origHP = HP;
+        respawn();
     }
 
     void Update()
@@ -104,5 +107,21 @@ public class playerController : MonoBehaviour
     {
         HP -= dmg;
 
+        StartCoroutine(gameManager.instance.playerDamageFlash());
+
+        if(HP <= 0)
+        {
+            gameManager.instance.playerDeadMenu.SetActive(true);
+            gameManager.instance.pauseGame();
+        }
+    }
+
+    public void respawn()
+    {
+        controller.enabled = false;
+        HP = origHP;
+        transform.position = gameManager.instance.spawnPos.transform.position;
+        gameManager.instance.playerDeadMenu.SetActive(false);
+        controller.enabled = true;
     }
 }

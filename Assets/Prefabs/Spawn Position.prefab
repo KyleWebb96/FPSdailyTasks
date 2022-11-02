@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5338116615456597497
+--- !u!1 &2295945650919306725
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6886848316315242973}
-  - component: {fileID: 6298583767131664105}
+  - component: {fileID: 7861136088220031413}
+  - component: {fileID: 4345217827668131878}
   m_Layer: 0
   m_Name: Spawn Position
   m_TagString: Spawn Pos
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6886848316315242973
+--- !u!4 &7861136088220031413
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338116615456597497}
+  m_GameObject: {fileID: 2295945650919306725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.87, y: 0.61, z: 12.41}
+  m_LocalPosition: {x: -36.9, y: 1.85, z: 37.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6298583767131664105
+--- !u!65 &4345217827668131878
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338116615456597497}
+  m_GameObject: {fileID: 2295945650919306725}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
