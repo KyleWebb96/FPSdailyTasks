@@ -21,6 +21,8 @@ public class playerController : MonoBehaviour
     [SerializeField] float shootRate;
     [SerializeField] int shootDist;
     [SerializeField] int shootDamage;
+    [SerializeField] GameObject gunModel;
+    [SerializeField] List<gunStats> gunStatList = new List<gunStats>();
 
     int origHP;
     Vector3 move;
@@ -83,7 +85,7 @@ public class playerController : MonoBehaviour
 
     IEnumerator shoot()
     {
-        if (isShooting == false && Input.GetButton("Shoot"))
+        if (gunStatList.Count < 0 && isShooting == false && Input.GetButton("Shoot"))
         {
             isShooting = true;
 
@@ -114,6 +116,18 @@ public class playerController : MonoBehaviour
             gameManager.instance.playerDeadMenu.SetActive(true);
             gameManager.instance.pauseGame();
         }
+    }
+
+    public void gunPickup(gunStats gunStat)
+    {
+        shootRate = gunStat.shootRate;
+        shootDist = gunStat.shootDist;
+        shootDamage = gunStat.shootDamage;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunStat.gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunStat.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+        gunStatList.Add(gunStat);
     }
 
     public void respawn()
