@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour
     [SerializeField] int shootDist;
     [SerializeField] int shootDamage;
     [SerializeField] GameObject gunModel;
+    [SerializeField] GameObject hitEffect;
     [SerializeField] List<gunStats> gunStatList = new List<gunStats>();
 
     int origHP;
@@ -31,6 +32,7 @@ public class playerController : MonoBehaviour
     bool isSprinting;
     bool isShooting;
     float playerSpeedOrig;
+    int selectedGun;
 
     private void Start()
     {
@@ -44,6 +46,7 @@ public class playerController : MonoBehaviour
         movement();
         sprint();
         StartCoroutine(shoot());
+        gunSelect();
     }
 
     void movement()
@@ -85,20 +88,20 @@ public class playerController : MonoBehaviour
 
     IEnumerator shoot()
     {
-        if (gunStatList.Count < 0 && isShooting == false && Input.GetButton("Shoot"))
+        if (gunStatList.Count > 0 && isShooting == false && Input.GetButton("Shoot"))
         {
             isShooting = true;
 
             RaycastHit hit;
-            if(Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDist))
+            if(Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDist) && shootDamage > 0)
             {
                 if (hit.collider.GetComponent<IDamage>() != null)
                 {
                     hit.collider.GetComponent<IDamage>().takeDamage(shootDamage);
                 }
 
+                Instantiate(hitEffect, hit.point, hitEffect.transform.rotation);
             }
-
 
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
@@ -128,6 +131,33 @@ public class playerController : MonoBehaviour
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunStat.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
 
         gunStatList.Add(gunStat);
+    }
+
+    void gunSelect()
+    {
+        if(gunStatList.Count > 1)
+        {
+            if(Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunStatList.Count - 1)
+            {
+                selectedGun++;
+                changeGuns();
+            }
+            else if(Input.GetAxis("Mouse ScrollWheel") < 0 && selectedGun > 0)
+            {
+                selectedGun--;
+                changeGuns();
+            }
+        }
+    }
+
+    void changeGuns()
+    {
+        shootRate = gunStatList[selectedGun].shootRate;
+        shootDist = gunStatList[selectedGun].shootDist;
+        shootDamage = gunStatList[selectedGun].shootDamage;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunStatList[selectedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunStatList[selectedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     public void respawn()
