@@ -8,6 +8,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator anim;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -16,6 +17,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] int sightDist;
     [SerializeField] int sightAngle;
     [SerializeField] int roamDist;
+    [SerializeField] int animLerpSpeed;
     [SerializeField] GameObject headPos;
 
     [Header("----- Gun Stats -----")]
@@ -29,12 +31,14 @@ public class enemyAI : MonoBehaviour, IDamage
     float angleToPlayer;
     float stoppingDistOrig;
     Vector3 startingPos;
+    float speedOrig;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
+        speedOrig = agent.speed;
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
         gameManager.instance.enemiesToKill++;
@@ -44,9 +48,7 @@ public class enemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        playerDir = (gameManager.instance.player.transform.position - headPos.transform.position);
-
-        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+        anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agent.velocity.normalized.magnitude, Time.deltaTime * animLerpSpeed));
 
         if(agent.enabled)
         {
@@ -63,6 +65,9 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void canSeePlayer()
     {
+        playerDir = (gameManager.instance.player.transform.position - headPos.transform.position);
+        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+
         RaycastHit hit;
         if(Physics.Raycast(headPos.transform.position, playerDir, out hit))
         {
@@ -95,7 +100,7 @@ public class enemyAI : MonoBehaviour, IDamage
         randomDir += startingPos;
 
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDir, out hit, 1, 1);
+        NavMesh.SamplePosition(new Vector3(randomDir.x, 0, randomDir.z), out hit, 1, 1);
         NavMeshPath path = new NavMeshPath();
         agent.CalculatePath(hit.position, path);
         agent.SetPath(path);
@@ -133,6 +138,8 @@ public class enemyAI : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
+
+        anim.SetTrigger("Shoot");
 
         Instantiate(bullet, shootPos.position, transform.rotation);
 
