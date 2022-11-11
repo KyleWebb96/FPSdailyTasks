@@ -88,7 +88,7 @@ public class playerController : MonoBehaviour
 
     IEnumerator shoot()
     {
-        if (gunStatList.Count > 0 && isShooting == false && Input.GetButton("Shoot"))
+        if (!gameManager.instance.isPaused && gunStatList.Count > 0 && isShooting == false && Input.GetButton("Shoot"))
         {
             isShooting = true;
 
