@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class enemyAI : MonoBehaviour, IDamage
 {
@@ -9,6 +10,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator anim;
+    [SerializeField] GameObject UI;
+    [SerializeField] Image HPBar;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -32,17 +35,20 @@ public class enemyAI : MonoBehaviour, IDamage
     float stoppingDistOrig;
     Vector3 startingPos;
     float speedOrig;
+    int origHP;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
+        origHP = HP;
         speedOrig = agent.speed;
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
         gameManager.instance.enemiesToKill++;
         gameManager.instance.updateUI();
+        updateEnemyHPBar();
     }
 
     // Update is called once per frame
@@ -116,6 +122,8 @@ public class enemyAI : MonoBehaviour, IDamage
     public void takeDamage(int dmg)
     {
         HP -= dmg;
+        updateEnemyHPBar();
+        UI.SetActive(true);
         agent.stoppingDistance = 0;
         StartCoroutine(flashDamage());
         agent.SetDestination(gameManager.instance.player.transform.position);
@@ -125,6 +133,10 @@ public class enemyAI : MonoBehaviour, IDamage
             gameManager.instance.updateEnemyNumber();
             Destroy(gameObject);
         }
+    }
+    void updateEnemyHPBar()
+    {
+        HPBar.fillAmount = (float)HP / (float)origHP;
     }
 
     IEnumerator flashDamage()

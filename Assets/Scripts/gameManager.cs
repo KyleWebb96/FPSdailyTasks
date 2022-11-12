@@ -19,6 +19,7 @@ public class gameManager : MonoBehaviour
     public GameObject spawnPos;
     public GameObject winMenu;
     public TextMeshProUGUI enemiesLeft;
+    public Image HPBar;
 
     public int enemiesToKill;
 
