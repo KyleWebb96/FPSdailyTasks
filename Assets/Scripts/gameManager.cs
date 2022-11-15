@@ -11,6 +11,7 @@ public class gameManager : MonoBehaviour
     [Header("----- Player Stuff -----")]
     public GameObject player;
     public playerController playerScript;
+    public gunStats currentGun;
 
     [Header("----- UI -----")]
     public GameObject pauseMenu;

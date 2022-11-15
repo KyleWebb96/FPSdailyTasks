@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fe5bdca11c8c5e4cb81375dcdadcda5, type: 3}
-  m_Name: Rifle
+  m_Name: Stat Rifle
   m_EditorClassIdentifier: 
   shootRate: 2
-  shootDist: 1000
+  shootDist: 100
   shootDamage: 5
   ammCount: 6
   gunModel: {fileID: 919132149155446097, guid: c8573db8e30e916479a705831bd5040c, type: 3}

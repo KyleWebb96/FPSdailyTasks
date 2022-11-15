@@ -33,6 +33,11 @@ public class playerController : MonoBehaviour
     bool isShooting;
     float playerSpeedOrig;
     int selectedGun;
+    int killsWithPistol;
+    int killsWithSmg;
+    int killsWithShotgun;
+    int killsWithAr;
+    int killsWithSniper;
 
     private void Start()
     {
@@ -138,6 +143,8 @@ public class playerController : MonoBehaviour
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunStat.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
 
         gunStatList.Add(gunStat);
+
+        gameManager.instance.currentGun = gunStatList[selectedGun];
     }
 
     void gunSelect()
@@ -165,6 +172,8 @@ public class playerController : MonoBehaviour
 
         gunModel.GetComponent<MeshFilter>().sharedMesh = gunStatList[selectedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunStatList[selectedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+        gameManager.instance.currentGun = gunStatList[selectedGun];
     }
 
     public void respawn()
@@ -176,4 +185,6 @@ public class playerController : MonoBehaviour
         gameManager.instance.playerDeadMenu.SetActive(false);
         controller.enabled = true;
     }
+
+
 }
