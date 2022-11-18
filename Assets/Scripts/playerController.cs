@@ -23,7 +23,7 @@ public class playerController : MonoBehaviour
     [SerializeField] int shootDamage;
     [SerializeField] GameObject gunModel;
     [SerializeField] GameObject hitEffect;
-    [SerializeField] List<gunStats> gunStatList = new List<gunStats>();
+    public List<gunStats> gunStatList = new List<gunStats>();
 
     int origHP;
     Vector3 move;
@@ -33,11 +33,6 @@ public class playerController : MonoBehaviour
     bool isShooting;
     float playerSpeedOrig;
     int selectedGun;
-    int killsWithPistol;
-    int killsWithSmg;
-    int killsWithShotgun;
-    int killsWithAr;
-    int killsWithSniper;
 
     private void Start()
     {
@@ -111,6 +106,20 @@ public class playerController : MonoBehaviour
 
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
+
+            if (gunStatList[selectedGun].kills >= 5)
+            {
+                gunStatList[selectedGun].kills = 0;
+                gunStatList.RemoveAt(0);
+                if (gunStatList.Count > 0)
+                {
+                    changeGuns();
+                }
+                else
+                {
+                    gameManager.instance.youWin();
+                }
+            }
         }
     }
 

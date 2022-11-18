@@ -133,10 +133,7 @@ public class enemyAI : MonoBehaviour, IDamage
             gameManager.instance.updateEnemyNumber();
             Destroy(gameObject);
 
-            //switch(gameManager.instance.currentGun)
-            //{
-            //    case 
-            //}
+            gameManager.instance.playerScript.gunStatList[0].kills++;
         }
     }
     void updateEnemyHPBar()
